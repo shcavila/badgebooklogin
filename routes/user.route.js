@@ -1,9 +1,9 @@
 const express = require('express');
 const userRoute = express.Router();
-const User = require('../models/User')
-const bcrypt = require('bcryptjs')
-const config = require('./config')
-const jwt = require('jsonwebtoken')
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const config = require('./config');
+const jwt = require('jsonwebtoken');
 
 var data;
 
@@ -11,7 +11,7 @@ var data;
 
 userRoute.route("/login").post(function (req, res) {
     var token = req.headers['authorization'];
-    console.log(token)
+    console.log(token);
 
     User.findOne({
             username: req.body.username
@@ -39,30 +39,31 @@ userRoute.route("/login").post(function (req, res) {
                                 token: token,
                                 message: "login successful"
                             });
-                            console.log("this is the " + token)
+                            console.log("this is the " + token);
                             //res.session.token = token ;
                             // Passwords match
                         } else {
-                            console.log('wrong password')
+                            console.log('wrong password');
                             res.status(200).json({
                                 message: "Wrong password"
-                            })
+                            });
                         }
                     })
                     .catch(err => {
                         if (err) {
-                            console.log(err)
-                            res.json(err)
+                            console.log(err);
+                            res.json(err);
                         }
-                    })
+                    });
+                    res.send();
 
             }
 
-        })
+        });
 
-})
+});
 userRoute.route("/checkusername").post((req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     User.findOne({
             username: req.body.username
         })
@@ -70,11 +71,13 @@ userRoute.route("/checkusername").post((req, res) => {
             if (doc) {
                 res.status(200).json({
                     message: "username already exist"
-                })
+                });
                 //console.log(doc)
             }
             if (!doc) {
-                res.end()
+                res.status(200).json({
+                    message: "ok"
+                });
             }
 
         })
@@ -82,21 +85,21 @@ userRoute.route("/checkusername").post((req, res) => {
             if (err) {
                 res.status(200).json({
                     message: err.name
-                })
+                });
             }
-        })
+        });
 
-})
+});
 
 
 userRoute.route("/signup").post((req, res) => {
     
-    let user = new User(req.body)
+    let user = new User(req.body);
     user.save()
         .then(() => {
-            console.log('saved')
-            console.log("id" + user._id)
-            data = req.body
+            console.log('saved');
+            console.log("id" + user._id);
+            data = req.body;
             var token = jwt.sign({
                 username: user.username,
                 password: user.password
@@ -118,21 +121,27 @@ userRoute.route("/signup").post((req, res) => {
             if (err) {
                 res.status(200).json({
                     message: "Unexpected error occured"
-                })
+                });
             }
 
-        })
-})
+        });
+});
 
 userRoute.route('/signedup').post((req,res) => {
    
-    res.json(data).send()
-
+   
+    if(data.username == undefined && data.password == undefined){
+        res.json({message:"error"})
+    }
+    else{
+        res.json(data).send();
+        //console.log('this is the data')
+    }
 })
 
 userRoute.route('/fullsignup').post((req,res) =>{
-    console.log("hello")
-    console.log(req.body)
+    console.log("hello");
+    console.log(req.body);
 })
 
 

@@ -43,9 +43,9 @@ app.get("/", (req, res) => {
 
 app.use("/user",userRoute)
 
-app.post("/fullsignup", (req, res) => {
-    console.log(req.body)
-})
+// app.post("/fullsignup", (req, res) => {
+//     console.log(req.body)
+// })
 
 // app.post("/user/checkusername", (req, res) => {
 //     var user = "rivas"

@@ -2,17 +2,19 @@
   <div class="container">
     <center>
       <form id="lgn" @submit.prevent="login">
-        <h1 class="sign">Login</h1>
+        <h1 class="sign">Sign in</h1>
+
+        
         <label>
           <p class="label-txt">ENTER USERNAME</p>
-          <input type="text" class="input" required v-model="username">
+          <input type="text" class="input" required v-model="username" />
           <div class="line-box">
             <div class="line"></div>
           </div>
         </label>
         <label>
           <p class="label-txt">ENTER PASSWORD</p>
-          <input type="password" class="input" required v-model="password">
+          <input type="password" class="input" required v-model="password" />
           <div class="line-box">
             <div class="line"></div>
           </div>
@@ -29,6 +31,8 @@
 import $ from "jquery";
 import axios from "axios";
 
+
+
 export default {
   name: "login",
   data() {
@@ -40,8 +44,8 @@ export default {
   methods: {
     login() {
       let cred = { username: this.username, password: this.password };
-      axios.post("http://localhost:8081/user/login", cred).then(response => {
-        if (response.data.message == "login successful") {
+      axios.post("http://localhost:8081/login", cred).then(response => {
+        if (response.data == "login successful") {
           alert("login successfull");
         } else {
           alert("cannot find account");
@@ -54,7 +58,7 @@ export default {
       $(this)
         .parent()
         .find(".label-txt")
-        .addClass("label-active");
+        .addClass("label-active").css({"color":"#0071ff"});
     });
 
     $(".input").focusout(function() {
@@ -64,6 +68,10 @@ export default {
           .find(".label-txt")
           .removeClass("label-active");
       }
+      $(this)
+        .parent()
+        .find(".label-txt")
+        .css({"color":"#555657"});
     });
   }
 };
@@ -73,7 +81,7 @@ export default {
 #lgn {
   border: 1px solid lightgrey;
   width: 400px;
-  margin-top: 40%;
+  margin-top: 150px;
   margin-bottom: 40px;
   background: white;
   padding: 40px;
@@ -85,11 +93,8 @@ export default {
 
 .container {
   justify-content: center;
-  /* background-image: linear-gradient(to bottom right, white, #d9dcde); */
   margin: 0;
   padding-top: 0;
-  padding-left: 35%;
-  padding-right: 35%;
   width: 100%;
 }
 .input {
@@ -110,21 +115,16 @@ label {
   font-size: 1em;
   letter-spacing: 1px;
   color: #555657;
-  transition: ease 0.3s;
+  transition: ease 0.2s;
   margin-top: 15px;
 }
 
-.label-txt2 {
-  position: absolute;
-  top: -1.6em;
-  padding: 10px;
-  font-family: sans-serif;
-  font-size: 1em;
-   font-weight: normal;
-  letter-spacing: 1px;
-  color: #555657;
-  transition: ease 0.3s;
+.label-active {
+  color:#0071ff;
+  font-size: 0.8em;
+  top: -3em;
 }
+
 .input {
   width: 100%;
   padding: 10px;
@@ -156,9 +156,7 @@ label {
   width: 100%;
 }
 
-.label-active {
-  top: -3em;
-}
+
 
 button {
   display: inline-block;
@@ -174,7 +172,7 @@ button {
 }
 
 button:hover {
-  background: #5d5f61;
+  background: #0071ff;
   color: #ffffff;
 }
 

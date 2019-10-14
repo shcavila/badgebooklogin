@@ -2,11 +2,13 @@
   <div class="container">
     <center>
       <div class="innercont">
-        <form class="col-sm-4">
+        <form  @submit.prevent="register">
+
+          <div class="col-sm-4">
           <p class="sign">Sign Up</p>
           <label>
-            <p class="label-txt">ADMIN USERNAME</p>
-            <input type="text" class="input" v-model="username" v-on:keyup="checkUsername" />
+            <p class="label-txt1">ADMIN USERNAME</p>
+            <input type="text" class="input" required v-model="username" v-on:keyup="checkUsername">
             <div class="line-box">
               <div class="line"></div>
             </div>
@@ -15,8 +17,8 @@
             </transition>
           </label>
           <label>
-            <p class="label-txt">PASSWORD</p>
-            <input type="password" class="input" required v-model="password" />
+            <p class="label-txt1">PASSWORD</p>
+            <input type="password" class="input" required v-model="password">
             <div class="line-box">
               <div class="line"></div>
             </div>
@@ -28,8 +30,8 @@
             </transition>
           </label>
           <label>
-            <p class="label-txt">CONFIRM PASSWORD</p>
-            <input type="password" class="input" required v-model="confirmpassword" />
+            <p class="label-txt1">CONFIRM PASSWORD</p>
+            <input type="password" class="input" required v-model="confirmpassword">
             <div class="line-box">
               <div class="line"></div>
             </div>
@@ -40,102 +42,41 @@
               >Password doesn't match!</span>
             </transition>
           </label>
-        </form>
-        <form id="perinfo" class="col-sm-8" @submit.prevent="register">
-          <p class="sign2">About your organization</p>
-          <table>
-            <td>
-              <div class="fname">
-                <label class="ln">
-                  <p class="label-txt">FIRST NAME</p>
-                  <input type="text" class="input" required v-model="firstname" />
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
+          </div>
+          <div id="perinfo" class="col-sm-8">
+            <p class="sign2">About your organization</p>
+            <label>
+              <p class="label-txt">NAME  OF THE ORGANIZATION</p>
+              <input type="text" class="input" required v-model="name">
+              <div class="line-box">
+                <div class="line"></div>
               </div>
-            </td>
-            <td>
-              <div class="lname">
-                <label class="ln">
-                  <p class="label-txt">LAST NAME</p>
-                  <input type="text" class="input" required v-model="lastname" />
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
+            </label>
+            <label>
+              <p class="label-txt">ADDRESS</p>
+              <input type="text" class="input" required v-model="address">
+              <div class="line-box">
+                <div class="line"></div>
               </div>
-            </td>
-          </table>
-          <label>
-            <p class="label-txt">ADDRESS</p>
-            <input type="text" class="input" required v-model="address" />
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label>
-          <table class="lastrow">
-            <td>
-              <label class="ln">
-                <p class="label-txt">OCCUPATION</p>
-                <input type="text" class="input" required v-model="occupation" />
-                <div class="line-box">
-                  <div class="line"></div>
-                </div>
-              </label>
-            </td>
-            <td id="years">
-              <label class="ln">
-                <p class="label-txt">YEARS</p>
-                <input type="number" class="input" required v-model="years" />
-                <div class="line-box">
-                  <div class="line"></div>
-                </div>
-              </label>
-            </td>
-          </table>
-          
-          <label>
-            <p class="label-txt">EMAIL ADDRESS</p>
-            <input type="email" class="input" required v-model="email" />
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label>
-          <table class="srow">
-            <td>
-              <div class="fname">
-                <label class="ln">
-                  <p class="label-txt2">AGE</p>
-                  <input type="number" class="input" required v-model="age" />
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
+            </label>
+
+            <label>
+              <p class="label-txt">ADMIN EMAIL ADDRESS</p>
+              <input type="email" class="input" required v-model="email">
+              <div class="line-box">
+                <div class="line"></div>
               </div>
-            </td>
-            <td>
-              <div class="lname">
-                <label class="ln">
-                  <p class="label-txt2">GENDER</p>
-                  <table>
-                    <td>
-                      <input type="radio" class="rad" value="Male" required v-model="gender" />
-                      <span class="gender">MALE</span>
-                    </td>
-                    <td>
-                      <input type="radio" class="rad" value="Female" v-model="gender" />
-                      <span class="gender">FEMALE</span>
-                    </td>
-                  </table>
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
+            </label>
+            <label>
+              <p class="label-txt">WHAT YOU DO? (<i>Short description</i>)</p>
+              <input id="description" type="text" class="input" required v-model="description">
+              <div class="line-box">
+                <div class="line"></div>
               </div>
-            </td>
-          </table>
-          <button type="submit">submit</button>
+            </label>
+            
+            <button type="submit">submit</button>
+          </div>
         </form>
       </div>
     </center>
@@ -153,19 +94,15 @@ export default {
       username: "",
       password: "",
       confirmpassword: "",
-      firstname: "",
-      lastname: "",
+      name: "",
       email: "",
-      age: "",
       address: "",
-      occupation: "",
-      gender: "",
+      description: "",
       isValid: false,
       years: "",
       err: false
     };
   },
-
 
   methods: {
     register() {
@@ -178,8 +115,7 @@ export default {
         address: this.address,
         occupation: this.occupation,
         gender: this.gender,
-        age: this.age,
-        show: true
+        age: this.age
       };
       if (
         this.isValid &&
@@ -214,32 +150,40 @@ export default {
     }
   },
   created() {
+    if (
+      this.username != "" &&
+      this.password != "" &&
+      this.confirmpassword != ""
+    ) {
+      $(".label-txt1").addClass("label-active");
+    }
     axios.get("http://localhost:8081/signedup").then(
       response => {
-        this.username = response.data.username;
-        this.password = response.data.password;
-        this.confirmpassword = response.data.password;
+        if (response.data.data != "error") {
+          console.log(response.data);
+          this.username = response.data.data.username;
+          this.password = response.data.data.password;
+          this.confirmpassword = response.data.data.password;
+          $(".label-txt1").addClass("label-active");
+        }
       },
       err => {
-        console.log("no signed up");
+        console.log("error");
       }
     );
   },
   mounted() {
     $(".input").focus(function() {
-      $(this)
-        .parent()
-        .find(".label-txt")
-        .addClass("label-active");
+      $(this).parent().find("p").addClass("label-active").css({"color":"#0071ff"});
+
     });
 
     $(".input").focusout(function() {
       if ($(this).val() == "") {
-        $(this)
-          .parent()
-          .find(".label-txt")
-          .removeClass("label-active");
+        $(this).parent().find("p").removeClass("label-active");
+
       }
+      $(this).parent().find("p").css({"color":"#555657"});
     });
   }
 };
@@ -247,31 +191,32 @@ export default {
 
 
 <style scoped>
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
 .slide-fade-enter-active {
   transition: all 0.5s ease;
 }
 .slide-fade-leave-active {
   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+.slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
+
 .col-sm-4 {
+  overflow:auto;
   background: #e3e3e3;
   padding: 40px;
   text-align: center;
   border-right: none;
-  height: 100%;
+  height: 648px;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
   border-right: 1px solid #b3b4b5;
-  position: relative;
 }
 
+#description {
+  overflow:visible;
+}
 
 .srow {
   margin-left: 0px;
@@ -284,7 +229,7 @@ export default {
 }
 
 #perinfo {
-  float: right;
+  overflow:auto;
   padding: 40px;
   margin: 0;
   border-radius: 5px;
@@ -352,16 +297,13 @@ table {
 }
 
 .innercont {
-  margin-top: 7%;
-  padding: 0;
+  margin-top: 100px;
+  padding:0;
   border-radius: 5px;
   border: 1px solid #bdbebf;
-  overflow: auto;
+  overflow: visible;
   width: 970px;
   height: 650px;
-  /* height: 100%; */
-  /* margin:10%; */
-  /* background-color: black; */
 }
 
 .body {
@@ -383,21 +325,22 @@ label {
   font-size: 1em;
   letter-spacing: 1px;
   color: #555657;
-  transition: ease 0.3s;
+  transition: ease 0.2s;
   margin-top: 15px;
 }
-
-.label-txt2 {
+.label-txt1 {
   position: absolute;
   top: -1.6em;
+  font-weight: normal;
   padding: 10px;
   font-family: sans-serif;
   font-size: 1em;
-   font-weight: normal;
   letter-spacing: 1px;
   color: #555657;
-  transition: ease 0.3s;
+  transition: ease 0.2s;
+  margin-top: 15px;
 }
+
 .input {
   width: 100%;
   padding: 10px;
@@ -416,7 +359,6 @@ label {
 }
 
 .input {
-  
   font-weight: normal;
 }
 
@@ -434,7 +376,10 @@ label {
   width: 100%;
 }
 
+
 .label-active {
+  color:#0071ff;
+  font-size: 0.8em;
   top: -3em;
 }
 
@@ -454,7 +399,7 @@ button {
 }
 
 button:hover {
-  background: #5d5f61;
+  background: #0071ff;
   color: #ffffff;
 }
 
@@ -476,7 +421,6 @@ button:hover {
   font-weight: normal;
   margin-bottom: 60px;
 }
-
 </style>
 
 

@@ -1,7 +1,7 @@
 <template>
   <!-- <div id="signup"> -->
     <form class="signupform" @submit.prevent="login">
-      <h1 class="sign">Sign Up</h1>
+      <h1 class="sign">Sign up</h1>
       <label>
         <p class="label-txt">USERNAME</p>
         <input
@@ -16,7 +16,7 @@
           <div id="username" class="line"></div>
         </div>
          <transition name="slide-fade">
-        <span class="err" v-if="err">Username already exist!</span>
+        <span class="err" v-if="err">Username already taken!</span>
          </transition>
       </label>
       <label>
@@ -69,7 +69,7 @@ export default {
       password: "",
       confirmpassword: "",
       err: false,
-      isValid: false
+      isValid: true
     };
   },
   methods: {
@@ -82,11 +82,10 @@ export default {
         let newUser = { username: this.username, password: this.password };
         axios.post("http://localhost:8081/user/signup", newUser).then(response => {
           if (response.status == 200) {
-            console.log(response);
             this.$router.push("/signUpAs");
           } 
         }, err => {
-          alert(err.message)
+          alert("an error occrured")
         });
       } else {
         alert("Invalid credentials")
@@ -100,6 +99,7 @@ export default {
         })
         .then(
           response => {
+            //alert(response.data.message)
             if (response.data.message != "username already exist") {
               this.err = false;
               this.isValid = true;
@@ -109,26 +109,23 @@ export default {
             }
           },
           err => {
-            console.log(err.message);
+            console.log("error occured");
           }
         );
     }
   },
   mounted() {
     $(".input").focus(function() {
-      $(this)
-        .parent()
-        .find(".label-txt")
-        .addClass("label-active");
+      $(this).parent().find("p").addClass("label-active").css({"color":"#0071ff"});
+
     });
 
     $(".input").focusout(function() {
       if ($(this).val() == "") {
-        $(this)
-          .parent()
-          .find(".label-txt")
-          .removeClass("label-active");
+        $(this).parent().find("p").removeClass("label-active");
+
       }
+      $(this).parent().find("p").css({"color":"#555657"});
     });
   }
 };
@@ -206,21 +203,11 @@ label {
   font-size: 1em;
   letter-spacing: 1px;
   color: #555657;
-  transition: ease 0.3s;
+  transition: ease 0.2s;
   margin-top: 15px;
 }
 
-.label-txt2 {
-  position: absolute;
-  top: -1.6em;
-  padding: 10px;
-  font-family: sans-serif;
-  font-size: 1em;
-   font-weight: normal;
-  letter-spacing: 1px;
-  color: #555657;
-  transition: ease 0.3s;
-}
+
 .input {
   width: 100%;
   padding: 10px;
@@ -257,6 +244,8 @@ label {
 }
 
 .label-active {
+  color:#0071ff;
+  font-size: 0.8em;
   top: -3em;
 }
 
@@ -274,7 +263,7 @@ button {
 }
 
 button:hover {
-  background: #5d5f61;
+  background: #0071ff;
   color: #ffffff;
 }
 

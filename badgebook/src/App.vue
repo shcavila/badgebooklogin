@@ -3,47 +3,132 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-           <router-link to="/">
-          <h3 class="web-name" href="#">BadgeBook</h3>
-           </router-link>
+          <router-link to="/">
+            <h3 class="web-name" href="#">BadgeBook</h3>
+          </router-link>
         </div>
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul id="nav" class="nav navbar-nav navbar-right">
           <li>
-            <router-link class="btn btn-default" to="/signUpAs">
-              <span class="glyphicon glyphicon-user"></span> Sign Up
-            </router-link>
+            <form class="navbar-form navbar-right" id="search" @submit.prevent="search">
+              <div class="form-group has-search">
+                <span class="material-icons">search</span>
+                <input type="text" class="form-control" placeholder="Search" v-model="person"/>
+              </div>
+            </form>
           </li>
           <li>
-            <router-link class="btn btn-default" to="/login">
-              <span class="glyphicon glyphicon-log-in"></span> Login
+            <router-link class="btn btn-default" to="/signUpAs">
+              <p class="auth">Sign up</p>
+            </router-link>
+
+            <router-link id="su" class="btn btn-default" to="/login">
+              <p class="auth">Sign in</p>
             </router-link>
           </li>
         </ul>
-
-        <form class="navbar-form navbar-right" action>
-          <div class="form-group has-search">
-            <span class="material-icons">search</span>
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-        </form>
+        <span class="fa fa-bars"></span>
       </div>
     </nav>
     <center>
-      <router-view/>
+      <router-view />
     </center>
-    
   </div>
 </template>
 
 
 <script>
+import $ from "jquery";
+import axios from 'axios';
+
 export default {
-  name: "app"
+  name: "app",
+  data() {
+    return {
+      person: ""
+    }
+  },
+  methods: {
+    search() {
+      let user = { user : this.person}
+      axios.post("http://localhost:8081/search", user).then(
+      response => {
+        if (response.data.respond != "Cannot find user!") {
+          console.log(response.data);
+          alert(response.data.respond);
+        } 
+        else {
+          alert(response.data.respond);
+        }
+      },
+      err => {
+        console.log("error");
+      }
+    );
+    }
+  },
+  mounted() {
+    $(".fa").click(function() {
+      if ($("ul").is(":visible")) {
+        $("ul").hide();
+      } else {
+        $("ul").show();
+      }
+    });
+    $(window).on("resize", function() {
+      var win = $(this);
+      if (win.width() >= 750) {
+        $("ul").show();
+        $(".fa").hide();
+      }
+    });
+
+    $(window).on("resize", function() {
+      var win = $(this);
+      if (win.width() <= 750) {
+        $("ul").hide();
+        $(".fa").show();
+      }
+    });
+  }
 };
 </script>
 
 <style scoped>
+.icon {
+  padding-top: 0;
+  display: none;
+}
+
+.fa {
+  height: 40px;
+  padding: 14px;
+  padding-bottom: 5px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  margin: 10px;
+  display: none;
+  color: white;
+}
+
+.fa:hover {
+  background-color: grey;
+  border-radius: 25px;
+}
+
+.btn:hover {
+  border-color: gray;
+}
+
+p:hover {
+  text-shadow: 5px 5px 5px black;
+}
+
+#search:hover {
+  box-shadow: 5px 5px 5px #1b2c3d;
+}
+
 .navbar {
   z-index: 9999;
   position: fixed;
@@ -53,26 +138,45 @@ export default {
   padding-right: 2%;
   padding-left: 2%;
   margin-bottom: 0;
-  background:#043b80;
-  padding-top: 3px;
+  background: #034e85;
+  padding-top: 5px;
   padding-bottom: 3px;
+  overflow: hidden;
 }
 
 .btn {
+  float: right;
   padding: 5px;
   background-color: transparent;
   border: 1px solid #e0e0e0;
-  margin: 10px;
+  margin: 8px;
 }
 
-body{
-  zoom:10%
+#su {
+  padding-right: 0px;
+  border: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  zoom: 10%;
+}
+
+.auth {
+  margin: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 17px;
+  color: white;
 }
 
 .web-name {
-  padding: 10px;
+  padding: 8px;
   color: white;
-  padding: 5px;
   letter-spacing: 2px;
   margin: 5px;
 }
@@ -85,9 +189,8 @@ body{
   margin-bottom: 0;
 }
 
-
 button {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 
 .form-control {
@@ -99,9 +202,10 @@ button {
 .navbar-form {
   background-color: white;
   border-radius: 3px;
-  padding: 0;
   position: relative;
+  padding: 0;
   margin-right: 7px;
+  margin-left: 10px;
 }
 label {
   display: block;
@@ -170,5 +274,4 @@ button:hover {
   background: #5d5f61;
   color: #ffffff;
 }
-
 </style>
