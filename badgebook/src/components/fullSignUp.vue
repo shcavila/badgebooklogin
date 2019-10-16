@@ -254,8 +254,18 @@ export default {
         this.password != "" &&
         this.password == this.confirmpassword
       ) {
-        axios.post("http://localhost:8081/user/fullsignup", userInfo);
-        alert("successfully registered");
+        axios.post("http://localhost:8081/user/fullsignup", userInfo)
+        //console.log(response.data)
+        .then( response => {
+          console.log(response.data.message)
+          if(response.data.message == undefined){
+              alert("successfully registered");
+          }else{
+              alert(response.data.message);
+              console.log(response.data.message)
+          }
+        });
+      
       } else {
         alert("invalid credentials!");
       }

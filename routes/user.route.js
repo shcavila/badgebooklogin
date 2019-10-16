@@ -11,7 +11,7 @@ var data;
 
 userRoute.route("/login").post(function (req, res) {
     var token = req.headers['authorization'];
-    console.log(token);
+    //console.log(token);
 
     User.findOne({
             username: req.body.username
@@ -30,7 +30,7 @@ userRoute.route("/login").post(function (req, res) {
                             // })
                             var token = jwt.sign({
                                 id: doc._id,
-                               
+
                             }, config.secret, {
                                 expiresIn: 86400 // expires in 24 hours
                             });
@@ -55,7 +55,7 @@ userRoute.route("/login").post(function (req, res) {
                             res.json(err);
                         }
                     });
-                    res.send();
+                res.send();
 
             }
 
@@ -93,7 +93,30 @@ userRoute.route("/checkusername").post((req, res) => {
 
 
 userRoute.route("/signup").post((req, res) => {
-    
+    console.log(req.body);
+     data = {
+        username : req.body.username,
+        password :  req.body.password,
+
+    };
+    res.status(200).send();
+   
+});
+
+userRoute.route('/signedup').post((req, res) => {
+    console.log(data)
+    if (data == undefined) {
+        res.json({
+            message: "error"
+        });
+    } else {
+        res.json(data).send();
+        //console.log('this is the data')
+    }
+})
+
+userRoute.route('/fullsignup').post((req, res) => {
+    console.log(req.body);
     let user = new User(req.body);
     user.save()
         .then(() => {
@@ -120,30 +143,14 @@ userRoute.route("/signup").post((req, res) => {
         .catch(err => {
             if (err) {
                 res.status(200).json({
-                    message: "Unexpected error occured"
+                    message: err.message
                 });
+                //console.log(err)
             }
 
-        });
+        }); 
 });
 
-userRoute.route('/signedup').post((req,res) => {
-   
-   
-    if(data.username == undefined && data.password == undefined){
-        res.json({message:"error"})
-    }
-    else{
-        res.json(data).send();
-        //console.log('this is the data')
-    }
-})
-
-userRoute.route('/fullsignup').post((req,res) =>{
-    console.log("hello");
-    console.log(req.body);
-})
 
 
-
-module.exports = userRoute
+module.exports = userRoute;

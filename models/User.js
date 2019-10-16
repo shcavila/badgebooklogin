@@ -4,14 +4,18 @@ const Schema = mongoose.Schema;
 const Bcrypt = require('bcryptjs')
 
 var UserSchema = new Schema({
-    name: {
+    firstname: {
         type: String,
-        //required: true
+        required: true
+    },
+    lastname: {
+        type: String,
+        required: true
     },
     email: {
         type: String,
-        //unique: true,
-        //required: true
+        unique: true,
+        required: true
     },
     username: {
         type: String,
@@ -24,11 +28,11 @@ var UserSchema = new Schema({
     },
     age: {
         type: Number,
-        //required: true
+        required: true
     },
     gender: {
         type: String,
-        //required: true
+        required: true
     },
     occupation: {
         type: String
@@ -39,6 +43,9 @@ var UserSchema = new Schema({
     address: {
         type: String
     },
+    birthdate : [
+        
+    ],
     badges: [
         
     ]
