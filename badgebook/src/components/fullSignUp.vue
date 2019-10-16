@@ -1,212 +1,218 @@
 <template>
-  <div class="container">
-    <center>
-      <div class="innercont">
-        <form @submit.prevent="register">
-          <div class="col-sm-4">
-            <p class="sign">Sign Up</p>
-            <label>
-              <p class="label-txt1">USERNAME</p>
-              <input
-                type="text"
-                class="input"
-                required
-                v-model="username"
-                v-on:keyup="checkUsername"
-              />
-              <div class="line-box">
-                <div class="line"></div>
-              </div>
-              <transition name="slide-fade">
-                <span class="err" v-if="err">Username already taken!</span>
-              </transition>
-            </label>
-            <label>
-              <p class="label-txt1">PASSWORD</p>
-              <input type="password" class="input" required v-model="password" />
-              <div class="line-box">
-                <div class="line"></div>
-              </div>
-              <transition name="slide-fade">
-                <span
-                  class="err"
-                  v-show=" password.length < 8 && password  != ''"
-                >must be at least 8 characters!</span>
-              </transition>
-            </label>
-            <label>
-              <p class="label-txt1">CONFIRM PASSWORD</p>
-              <input type="password" class="input" required v-model="confirmpassword" />
-              <div class="line-box">
-                <div class="line"></div>
-              </div>
-              <transition name="slide-fade">
-                <span
-                  class="err"
-                  v-show="confirmpassword != password && confirmpassword && password"
-                >Password doesn't match!</span>
-              </transition>
-            </label>
+  <div class="innercont">
+    <form @submit.prevent="register">
+      <div class="col-sm-4">
+        <div v-if="isLoggedIn">
+          <h1>Hello&nbsp;{{ this.username }}</h1>
+          <h2 class="uname"></h2>
+          <h3 class="inst">Fill up the form to continue creating your account</h3>
+          <hr>
+           <h4 class="inst">or do it later | <span class="lgt" v-on:click="logout">Logout</span></h4>
+        </div>
+        <p class="sign" v-if="!isLoggedIn">Sign Up</p>
+        <label v-if="!isLoggedIn">
+          <p class="label-txt1">USERNAME</p>
+          <input type="text" class="input" required v-model="username" v-on:keyup="checkUsername">
+          <div class="line-box">
+            <div class="line"></div>
           </div>
-          <div id="perinfo" class="col-sm-8">
-            <p class="sign2">Personal Information</p>
-            <table>
-              <td>
-                <div class="fname">
-                  <label class="ln">
-                    <p class="label-txt">FIRST NAME</p>
-                    <input type="text" class="input" required v-model="firstname" />
-                    <div class="line-box">
-                      <div class="line"></div>
-                    </div>
-                  </label>
-                </div>
-              </td>
-              <td>
-                <div class="lname">
-                  <label class="ln">
-                    <p class="label-txt">LAST NAME</p>
-                    <input type="text" class="input" required v-model="lastname" />
-                    <div class="line-box">
-                      <div class="line"></div>
-                    </div>
-                  </label>
-                </div>
-              </td>
-            </table>
-            <label>
-              <p class="label-txt">ADDRESS</p>
-              <input type="text" class="input" required v-model="address" />
-              <div class="line-box">
-                <div class="line"></div>
-              </div>
-            </label>
-            <table class="lastrow">
-              <td>
-                <label class="ln">
-                  <p class="label-txt">OCCUPATION</p>
-                  <input type="text" class="input" v-model="occupation" />
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
-              </td>
-              <td id="years">
-                <label class="ln">
-                  <p class="label-txt">YEARS</p>
-                  <input type="number" class="input" v-model="years" min="1" />
-                  <div class="line-box">
-                    <div class="line"></div>
-                  </div>
-                </label>
-              </td>
-            </table>
-
-            <label>
-              <p class="label-txt">EMAIL ADDRESS</p>
-              <input type="email" class="input" required v-model="email" />
-              <div class="line-box">
-                <div class="line"></div>
-              </div>
-            </label>
-            <table class="srow">
-              <td>
-                <div class="fname">
-                  <label class="ln">
-                    <p class="label-txt">AGE</p>
-                    <input type="number" class="input" required v-model="age" min="12" />
-                    <div class="line-box">
-                      <div class="line"></div>
-                    </div>
-                  </label>
-                </div>
-              </td>
-              <td>
-                <div class="fname">
-                  <label class="ln">
-                    <p id="gend" class="label-txt">BIRTHDATE</p>
-                    <table class="gg">
-                      <td>
-                        <input
-                          type="text"
-                          class="BD"
-                          id="mnth"
-                          placeholder="Month"
-                          min="1"
-                          max="12"
-                          required
-                          v-model="birthdate.month"
-                        />
-                        <div class="month">
-                          <h5 @click="month('January')">January</h5>
-                          <h5 @click="month('February')">February</h5>
-                          <h5 @click="month('March')">March</h5>
-                          <h5 @click="month('April')">April</h5>
-                          <h5 @click="month('May')">May</h5>
-                          <h5 @click="month('June')">June</h5>
-                          <h5 @click="month('July')">July</h5>
-                          <h5 @click="month('August')">August</h5>
-                          <h5 @click="month('September')">September</h5>
-                          <h5 @click="month('October')">October</h5>
-                          <h5 @click="month('November')">November</h5>
-                          <h5 @click="month('December')">December</h5>
-                        </div>
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          class="BD"
-                          placeholder="Day"
-                          min="1"
-                          max="32"
-                          required
-                          v-model="birthdate.day"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          class="BD"
-                          placeholder="Year"
-                          min="1990"
-                          max="2019"
-                          required
-                          v-model="birthdate.year"
-                        />
-                      </td>
-                    </table>
-                    <div class="line-box">
-                      <div class="line"></div>
-                    </div>
-                  </label>
-                </div>
-              </td>
-              <td>
-                <div class="lname">
-                  <label class="ln">
-                    <p id="gend" class="label-txt">GENDER</p>
-                    <table class="gg">
-                      <td>
-                        <input type="radio" class="rad" value="Male" required v-model="gender" />
-                        <span class="gender">MALE</span>
-                      </td>
-                      <td>
-                        <input type="radio" class="rad" value="Female" v-model="gender" />
-                        <span class="gender">FEMALE</span>
-                      </td>
-                    </table>
-                    <div class="line-box">
-                      <div class="line"></div>
-                    </div>
-                  </label>
-                </div>
-              </td>
-            </table>
-            <button type="submit">submit</button>
+          <transition name="slide-fade">
+            <span class="err" v-if="err">Username already taken!</span>
+          </transition>
+        </label>
+        <label v-if="!isLoggedIn">
+          <p class="label-txt1">PASSWORD</p>
+          <input type="password" class="input" required v-model="password">
+          <div class="line-box">
+            <div class="line"></div>
           </div>
-        </form>
+          <transition name="slide-fade">
+            <span
+              class="err"
+              v-show=" password.length < 8 && password  != ''"
+            >must be at least 8 characters!</span>
+          </transition>
+        </label>
+        <label v-if="!isLoggedIn">
+          <p class="label-txt1">CONFIRM PASSWORD</p>
+          <input type="password" class="input" required v-model="confirmpassword">
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+          <transition name="slide-fade">
+            <span
+              class="err"
+              v-show="confirmpassword != password && confirmpassword && password"
+            >Password doesn't match!</span>
+          </transition>
+        </label>
       </div>
-    </center>
+      <div id="perinfo" class="col-sm-8">
+        <p class="sign2">Personal Information</p>
+        <table>
+          <td>
+            <div class="fname">
+              <label class="ln">
+                <p class="label-txt">FIRST NAME</p>
+                <input type="text" class="input" required v-model="firstname">
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </label>
+            </div>
+          </td>
+          <td>
+            <div class="lname">
+              <label class="ln">
+                <p class="label-txt">LAST NAME</p>
+                <input type="text" class="input" required v-model="lastname">
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </label>
+            </div>
+          </td>
+        </table>
+        <label>
+          <p class="label-txt">ADDRESS</p>
+          <input type="text" class="input" required v-model="address">
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        <table class="srow">
+          <td>
+            <div class="fname">
+              <label class="ln">
+                <p class="label-txt">AGE</p>
+                <input type="number" class="input" required v-model="age" min="12">
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </label>
+            </div>
+          </td>
+          <td>
+            <div class="fname">
+              <label class="ln">
+                <p id="gend" class="label-txt">BIRTHDATE</p>
+                <table class="bday">
+                  <td>
+                    <input
+                      autocomplete="off"
+                      type="text"
+                      class="BD"
+                      id="mnth"
+                      placeholder="Month"
+                      min="1"
+                      max="12"
+                      required
+                      v-model="birthdate.month"
+                    >
+                    <div class="month">
+                      <h5 @click="month('January')">January</h5>
+                      <h5 @click="month('February')">February</h5>
+                      <h5 @click="month('March')">March</h5>
+                      <h5 @click="month('April')">April</h5>
+                      <h5 @click="month('May')">May</h5>
+                      <h5 @click="month('June')">June</h5>
+                      <h5 @click="month('July')">July</h5>
+                      <h5 @click="month('August')">August</h5>
+                      <h5 @click="month('September')">September</h5>
+                      <h5 @click="month('October')">October</h5>
+                      <h5 @click="month('November')">November</h5>
+                      <h5 @click="month('December')">December</h5>
+                    </div>
+                  </td>
+                  <td id="day">
+                    <input
+                      type="number"
+                      class="BD"
+                      placeholder="Day"
+                      min="1"
+                      max="32"
+                      required
+                      v-model="birthdate.day"
+                    >
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      class="BD"
+                      placeholder="Year"
+                      min="1990"
+                      max="2019"
+                      required
+                      v-model="birthdate.year"
+                    >
+                  </td>
+                </table>
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </label>
+            </div>
+          </td>
+          <td>
+            <div class="lname">
+              <label class="ln">
+                <p id="gend" class="label-txt">GENDER</p>
+                <table class="gg">
+                  <td>
+                    <input
+                      type="radio"
+                      class="rad"
+                      value="Male"
+                      name="gender"
+                      required
+                      v-model="gender"
+                    >
+                    <span class="gender">MALE</span>
+                  </td>
+                  <td>
+                    <input type="radio" class="rad" value="Female" name="gender" v-model="gender">
+                    <span class="gender">FEMALE</span>
+                  </td>
+                </table>
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </label>
+            </div>
+          </td>
+        </table>
+
+        <label>
+          <p class="label-txt">EMAIL ADDRESS</p>
+          <input type="email" class="input" required v-model="email">
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        
+        <table class="lastrow">
+          <td>
+            <label class="ln">
+              <p class="label-txt">OCCUPATION</p>
+              <input type="text" class="input" required v-model="occupation">
+              <div class="line-box">
+                <div class="line"></div>
+              </div>
+            </label>
+          </td>
+          <td id="years">
+            <label class="ln">
+              <p class="label-txt">YEARS</p>
+              <input type="number" class="input" required v-model="years" min="1">
+              <div class="line-box">
+                <div class="line"></div>
+              </div>
+            </label>
+          </td>
+        </table>
+        <button type="submit">submit</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -231,7 +237,8 @@ export default {
       birthdate: { month: "", day: "", year: "" },
       isValid: false,
       years: "",
-      err: false
+      err: false,
+      isLoggedIn: this.$store.getters.isLoggedIn
     };
   },
 
@@ -254,18 +261,12 @@ export default {
         this.password != "" &&
         this.password == this.confirmpassword
       ) {
-        axios.post("http://localhost:8081/user/fullsignup", userInfo)
-        //console.log(response.data)
-        .then( response => {
-          console.log(response.data.message)
-          if(response.data.message == undefined){
-              alert("successfully registered");
-          }else{
-              alert(response.data.message);
-              console.log(response.data.message)
-          }
-        });
-      
+        // axios.post("http://localhost:8081/user/fullsignup", userInfo);
+        this.$store
+          .dispatch("fullsignup", userInfo)
+          .then(() => this.$router.push("/landingpage"))
+          .catch(err => console.log(err));
+        alert("successfully registered");
       } else {
         alert("invalid credentials!");
       }
@@ -277,7 +278,6 @@ export default {
         })
         .then(
           response => {
-            console.log(response.data.message)
             if (response.data.message != "username already exist") {
               this.err = false;
               this.isValid = true;
@@ -293,9 +293,16 @@ export default {
     },
     month(m) {
       this.birthdate.month = m;
+    },
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/");
+        })
     }
+
   },
   created() {
+    
     if (
       this.username != "" &&
       this.password != "" &&
@@ -303,14 +310,16 @@ export default {
     ) {
       $(".label-txt1").addClass("label-active");
     }
-    axios.post("http://localhost:8081/user/signedup").then(
+    axios.get("http://localhost:8081/user/signedup").then(
       response => {
-        if (response.data.message != "error") {
+        if (response.data.username != null) {
           this.isValid = true;
           this.username = response.data.username;
           this.password = response.data.password;
           this.confirmpassword = response.data.password;
-          $(".label-txt1").addClass("label-active");
+          $(".label-txt1")
+            .addClass("label-active")
+            .css({ color: "#555657" });
         }
       },
       err => {
@@ -341,12 +350,16 @@ export default {
     });
 
     $("#mnth").click(function() {
-      // $(this).parent().parent().parent().find("p").addClass("label-active").css({"color":"#0071ff"});
-      $(".month").show();
+      if ($(".month").is(":hidden")) {
+        $("#mnth").val("");
+        $(".month").slideDown();
+      }
     });
 
-    $("#mnth").onchage(function() {
-        $(".month").hide();
+    $("#mnth").click(function() {
+      if ($("#mnth").val() != "") {
+        $(".month").slideUp();
+      }
     });
   }
 };
@@ -366,6 +379,11 @@ export default {
   opacity: 0;
 }
 
+.lgt {
+  color: red;
+  text-decoration: underline;
+}
+
 .col-sm-4 {
   overflow: auto;
   background: #e3e3e3;
@@ -377,33 +395,37 @@ export default {
   border-top-right-radius: 0;
   border-right: 1px solid #b3b4b5;
 }
-
+.uname  {
+  text-decoration: underline;
+}
 h5 {
   margin: 0;
   padding: 3px;
 }
 
 h5:hover {
-  background-color:#0071ff;
-  color:white;
+  background-color: #0071ff;
+  color: white;
 }
 
 .month {
-  padding:0px;
+  padding: 0px;
   display: none;
   position: absolute;
-  background: white;
   border: 1px solid lightgray;
+  z-index:9999;
+  background:#f7fafa;
 }
 
 #mnth {
-  width: 50%;
+  width: 100%;
 }
 
 .BD {
   width: 100%;
   border: none;
   margin: 9px;
+  margin-right: 0;
   font-weight: normal;
 }
 
@@ -438,7 +460,7 @@ h5:hover {
 }
 
 .rad {
-  margin: 16px;
+  margin: 15px;
 }
 
 .err {
@@ -461,15 +483,30 @@ h5:hover {
   padding-bottom: 0;
 }
 
+#day {
+  width: 10%;
+}
+
 .gg {
   margin-bottom: 0;
   /* height: 5px; */
   padding-top: 5px;
   width: 200px;
 }
+.bday {
+  width: 250px;
+  /* padding-top: 20px;
+  margin-top: 10px; */
+}
+
+.bday td {
+  width: 15%;
+  padding-right: 10px;
+  padding-top: 15px;
+}
 
 .gg td {
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
 .ln {
@@ -493,17 +530,10 @@ table {
   overflow: visible;
 }
 
-.container {
-  margin-left: 0;
-  padding: 0;
-  width: 100%;
-  font-weight: normal;
-}
-
 .innercont {
-  margin-top: 100px;
+  /* margin-top: 100px; */
   padding: 0;
-  border-radius: 5px;
+  border-radius: 2px;
   border: 1px solid #bdbebf;
   overflow: visible;
   width: 970px;
@@ -593,7 +623,7 @@ label {
   height: 2px;
   top: 0px;
   transform: translateX(0%);
-  background: #032dff;
+  background: #0071ff;
   transition: ease 0.6s;
 }
 

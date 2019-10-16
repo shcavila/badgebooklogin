@@ -1,4 +1,4 @@
-# badgebook
+# vue2
 
 ## Project setup
 ```

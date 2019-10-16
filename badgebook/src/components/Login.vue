@@ -44,11 +44,15 @@ export default {
   methods: {
     login() {
       let cred = { username: this.username, password: this.password };
-      axios.post("http://localhost:8081/login", cred).then(response => {
-        if (response.data == "login successful") {
+       this.$store.dispatch("signup", cred)
+        .then(() => this.$router.push("/landingpage"))
+        .catch(err => console.log(err));
+      axios.post("http://localhost:8081/user/login", cred).then(response => {
+        if (response.data.message != "login unsuccessful") {
+          console.log(response)
           alert("login successfull");
         } else {
-          alert("cannot find account");
+          alert(response.data.message);
         }
       });
     }

@@ -69,7 +69,7 @@ export default {
       password: "",
       confirmpassword: "",
       err: false,
-      isValid: true
+      isValid: false
     };
   },
   methods: {
@@ -80,16 +80,23 @@ export default {
         this.password.length > 7
       ) {
         let newUser = { username: this.username, password: this.password };
-        axios.post("http://localhost:8081/user/signup", newUser).then(response => {
-          if (response.status == 200) {
-            this.$router.push("/signUpAs");
-          } 
-        }, err => {
-          alert("an error occrured")
-        });
-      } else {
-        alert("Invalid credentials")
-      }
+        this.$store.dispatch("signup", newUser)
+       .then(() => this.$router.push("/signUpAs"))
+        .catch(err => console.log(err));
+      //   axios.post("http://localhost:8081/user/signup", newUser).then(response => {
+      //     if (response.status == 200) {
+      //       console.log(response.data);
+      //       this.$router.push("/signUpAs");
+      //     } 
+      //   }, err => {
+      //     alert("an error occrured")
+      //   });
+      // } else {
+      //   alert("Invalid credentials")
+      // }
+    } else {
+      alert("Invalid credentials")
+    }
     },
 
     checkUsername() {
@@ -99,12 +106,11 @@ export default {
         })
         .then(
           response => {
-            //alert(response.data.message)
             if (response.data.message != "username already exist") {
               this.err = false;
               this.isValid = true;
             } else {
-              this.err = true;
+             this.err = true;
               this.isValid = false;
             }
           },
@@ -235,7 +241,7 @@ label {
   height: 2px;
   top: 0px;
   transform: translateX(0%);
-  background: #032dff;
+  background: #0071ff;
   transition: ease 0.6s;
 }
 

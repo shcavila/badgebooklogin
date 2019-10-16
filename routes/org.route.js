@@ -1,6 +1,6 @@
 const express = require('express');
-const userRoute = express.Router();
-const User = require('../models/User');
+const orgRoute = express.Router();
+const Org = require('../models/Org');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
 const jwt = require('jsonwebtoken');
@@ -9,9 +9,9 @@ var data;
 
 
 
-userRoute.route("/login").post(function (req, res) {
+orgRoute.route("/login").post(function (req, res) {
    
-    User.findOne({
+    Org.findOne({
             username: req.body.username
         })
         .then(doc => {
@@ -37,7 +37,7 @@ userRoute.route("/login").post(function (req, res) {
                                 token: token,
                                 message: "login successful"
                             });
-                            console.log("this is the " + token);
+                            //console.log("this is the " + token);
                             //res.session.token = token ;
                             // Passwords match
                         } else {
@@ -67,9 +67,9 @@ userRoute.route("/login").post(function (req, res) {
         })
 
 });
-userRoute.route("/checkusername").post((req, res) => {
-    console.log(req.body);
-    User.findOne({
+orgRoute.route("/checkusername").post((req, res) => {
+    console.log("helo there");
+    Org.findOne({
             username: req.body.username
         })
         .then(doc => {
@@ -97,7 +97,7 @@ userRoute.route("/checkusername").post((req, res) => {
 });
 
 
-userRoute.route("/signup").post((req, res) => {
+orgRoute.route("/signup").post((req, res) => {
     console.log(req.body);
      data = {
         username : req.body.username,
@@ -108,7 +108,7 @@ userRoute.route("/signup").post((req, res) => {
    
 });
 
-userRoute.route('/signedup').get((req, res) => {
+orgRoute.route('/signedup').post((req, res) => {
     console.log(data)
     if (data == undefined) {
         res.json({
@@ -120,9 +120,9 @@ userRoute.route('/signedup').get((req, res) => {
     }
 })
 
-userRoute.route('/fullsignup').post((req, res) => {
+orgRoute.route('/fullsignup').post((req, res) => {
     console.log(req.body);
-    let user = new User(req.body);
+    let org = new Org(req.body);
     user.save()
         .then(() => {
             console.log('saved');
@@ -158,4 +158,4 @@ userRoute.route('/fullsignup').post((req, res) => {
 
 
 
-module.exports = userRoute;
+module.exports = orgRoute;

@@ -110,6 +110,8 @@ export default {
   margin: 10px;
   display: none;
   color: white;
+  cursor: pointer;
+  transition: ease 0.3s;
 }
 
 .fa:hover {
@@ -150,6 +152,8 @@ p:hover {
   background-color: transparent;
   border: 1px solid #e0e0e0;
   margin: 8px;
+  cursor: pointer;
+  transition: ease 0.3s;
 }
 
 #su {
@@ -206,6 +210,8 @@ button {
   padding: 0;
   margin-right: 7px;
   margin-left: 10px;
+  cursor: pointer;
+  transition: ease 0.3s;
 }
 label {
   display: block;

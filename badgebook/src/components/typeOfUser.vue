@@ -1,35 +1,51 @@
 <template>
-  <div id="myModal" role="dialog" v-show="type == ''">
-    <div id="option" class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-body">
-          <button type="button" class="close" aria-label="Close" v-on:click="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h2>CREATE ACCOUNT AS</h2>
-          <span id="org" class="btn btn-default" v-on:click="signUpAs('Organization')">ORGANIZATION</span>
-          <span  id="reg" v-on:click="signUpAs('Regular User')" class="btn btn-default">REGULAR USER</span>
+  <div class="container">
+    <center>
+      <div class="holder">
+        <div class="choices">
+          <span class="ch">Create an account as</span>
+          <button
+            id="org"
+            class="btn btn-default"
+            v-on:click="signUpAs('Organization')"
+          >ORGANIZATION</button>
+          <button
+            id="reg"
+            v-on:click="signUpAs('Regular User')"
+            class="btn btn-default"
+          >REGULAR USER</button>
         </div>
+        <FullSignUp v-show="type=='Regular User'"></FullSignUp>
+        <OrgSignUp v-show="type=='Organization'"></OrgSignUp>
       </div>
-    </div>
+    </center>
   </div>
 </template>
 
 <script>
+import FullSignUp from "./fullSignUp";
+import OrgSignUp from "./orgSignUp";
+
 export default {
   name: "TypeOfUser",
   data() {
     return {
-      type: ""
+      type: "Regular User"
     };
+  },
+  components: {
+    FullSignUp,
+    OrgSignUp
   },
   methods: {
     signUpAs(type) {
       if (type == "Organization") {
+        $("#org").css({"background-color":"#034e85"})
+        $("#reg").css({"background-color":"#b8bcc2"})
         this.type = type;
-        this.$router.push("/organizationsignup");
       } else {
-        this.$router.push("/signup");
+        $("#reg").css({"background-color":"#034e85"})
+        $("#org").css({"background-color":"#b8bcc2"})
         this.type = type;
       }
     },
@@ -41,34 +57,67 @@ export default {
 </script>
 
 <style scoped>
-#myModal {
-  margin-top: 7%;
-  position: fixed;
-  margin: 0;
-  background-color: rgba(43, 43, 43, 0.9);
+.container {
+  margin-left: 0;
+  padding: 0;
   width: 100%;
-  z-index: 99999;
-  height: 100%;
+  font-weight: normal;
+}
+
+.tp {
+  margin-bottom: 2px;
+  padding-bottom: 0;
+}
+
+.choices {
+  border-bottom: none;
+  border-radius: 2px;
+  position: relative;
+}
+
+.holder {
+  padding: 0;
+  width: 970px;
+  margin-top: 80px;
+  text-align: right;
+}
+.ch {
+  font-size: 17px;
+  font-weight: normal;
+  margin-right: 10px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  position:absolute;
+  bottom:4px;
+  right: 255px;
+  font-family: sans-serif;
 }
 
 .btn {
-  margin: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   background-color: #034e85;
-  color:white;
-  border:none;
-  padding:10px;
+  color: white;
+  border: none;
+  padding: 10px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  transition: ease 0.3s;
 }
 
-.btn:hover {
-    box-shadow: 5px 10px 10px grey;
-    background-color: #0458c7;
-    
+#org {
+  margin-right: 5px;
+  background-color:#b8bcc2;
 }
+.btn:focus {
+  outline: none;
+}
+
 
 #option {
   margin-top: 15%;
   border-radius: 1px;
-  padding:0;
+  padding: 0;
 }
 
 .close {
@@ -78,24 +127,9 @@ export default {
 }
 h2 {
   border-bottom: 1px solid gray;
-  padding:25px;
-  margin:0;
+  padding: 25px;
+  margin: 0;
   padding-bottom: 10px;
 }
 
-.modal-body {
-  padding: 0;
-}
-
-.modal-content {
-  margin: 0;
-}
-
-#org {
- margin-right: 7px;
-}
-
-#reg {
-  margin-left: 7px;
-}
 </style>

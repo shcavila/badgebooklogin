@@ -1,27 +1,20 @@
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import BootstrapVue from 'bootstrap-vue'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
-// import "core-js/stable";
-// import "regenerator-runtime/runtime";
-// import VueMaterial from 'vue-material'
-// import 'vue-material/dist/vue-material.css'
-// import 'vue-material/dist/theme/default.css'
-// Vue.use(VueMaterial)
+import Axios from 'axios'
 
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('token');
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
-Vue.use(BootstrapVue)
+Vue.config.productionTip = false;
 
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
-new Vue({ 
-  el: '#app',
+new Vue({
   router,
-   render: h => h(App) 
-})
-
-
-
-
+  store,
+  render: h => h(App),
+}).$mount('#app');

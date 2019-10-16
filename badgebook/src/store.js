@@ -34,7 +34,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('auth_request')
                 axios({
-                        url: 'http://localhost:8081/login',
+                        url: 'http://localhost:8081/user/login',
                         data: user,
                         method: 'POST'
                     })
@@ -43,6 +43,7 @@ export default new Vuex.Store({
                         const user = resp.data.user
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
+                        console.log(token)
                         commit('auth_success', token, user)
                         resolve(resp)
                     })
@@ -53,6 +54,70 @@ export default new Vuex.Store({
                     })
             })
         },
+        signup({
+            commit
+        }, user) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request')
+                axios({
+                        url: 'http://localhost:8081/user/signup',
+                        data: user,
+                        method: 'POST'
+                    })
+                    .then(resp => {
+                        const token = resp.data.token
+                        const user = resp.data.user
+                        localStorage.setItem('token', token)
+                        axios.defaults.headers.common['Authorization'] = token
+                        console.log(token)
+                        commit('auth_success', token, user)
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('auth_error')
+                        localStorage.removeItem('token')
+                        reject(err)
+                    })
+            })
+        },
+        fullsignup({
+            commit
+        }, user) {
+            return new Promise((resolve, reject) => {
+                commit('auth_request')
+                axios({
+                        url: 'http://localhost:8081/user/fullsignup',
+                        data: user,
+                        method: 'POST'
+                    })
+                    .then(resp => {
+                        const token = resp.data.token
+                        const user = resp.data.user
+                        localStorage.setItem('token', token)
+                        axios.defaults.headers.common['Authorization'] = token
+                        console.log(token)
+                        commit('auth_success', token, user)
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('auth_error')
+                        localStorage.removeItem('token')
+                        reject(err)
+                    })
+            })
+        },
+        logout({ commit }) {
+            return new Promise((resolve, reject) => {
+              commit('logout')
+              axios({
+                        url: 'http://localhost:8081/user/logout',
+                        method: 'GET'
+                    })
+              localStorage.removeItem('token')
+              delete axios.defaults.headers.common['Authorization']
+              resolve()
+            })
+          }
 
     },
     getters: {

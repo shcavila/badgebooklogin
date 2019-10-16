@@ -122,7 +122,7 @@ export default {
         this.password != "" &&
         this.password == this.confirmpassword
       ) {
-        axios.post("http://localhost:8081/fullsignup", userInfo);
+        axios.post("http://localhost:8081/org/fullsignup", userInfo);
         alert("successfully registered");
       } else {
         alert("invalid credentials!");
@@ -130,12 +130,12 @@ export default {
     },
     checkUsername() {
       axios
-        .post("http://localhost:8081/checkusername", {
+        .post("http://localhost:8081/org/checkusername", {
           username: this.username
         })
         .then(
           response => {
-            if (response.data != "username already used!") {
+            if (response.data.message != "username already exist") {
               this.err = false;
               this.isValid = true;
             } else {
@@ -144,6 +144,7 @@ export default {
             }
           },
           err => {
+            console.log(err)
             console.log("error occured");
           }
         );
@@ -157,13 +158,12 @@ export default {
     ) {
       $(".label-txt1").addClass("label-active");
     }
-    axios.get("http://localhost:8081/signedup").then(
+    axios.post("http://localhost:8081/org/signedup").then(
       response => {
-        if (response.data.data != "error") {
-          console.log(response.data);
-          this.username = response.data.data.username;
-          this.password = response.data.data.password;
-          this.confirmpassword = response.data.data.password;
+        if (response.data.username != null) {
+          this.username = response.data.username;
+          this.password = response.data.password;
+          this.confirmpassword = response.data.password;
           $(".label-txt1").addClass("label-active");
         }
       },
@@ -297,13 +297,14 @@ table {
 }
 
 .innercont {
-  margin-top: 100px;
+  /* margin-top: 100px; */
   padding:0;
-  border-radius: 5px;
+  border-radius: 2px;
   border: 1px solid #bdbebf;
   overflow: visible;
   width: 970px;
   height: 650px;
+  
 }
 
 .body {
@@ -368,7 +369,7 @@ label {
   height: 2px;
   top: 0px;
   transform: translateX(0%);
-  background: #032dff;
+  background: #0071ff;
   transition: ease 0.6s;
 }
 
