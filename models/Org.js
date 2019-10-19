@@ -37,9 +37,9 @@ var OrgSchema = new Schema({
 
     });
 
-UserSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
+OrgSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
 
-UserSchema.pre("save", function(next) {
+OrgSchema.pre("save", function(next) {
     if(!this.isModified("password")) {
         return next();
     }

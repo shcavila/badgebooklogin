@@ -109,13 +109,9 @@ export default {
       let userInfo = {
         username: this.username,
         password: this.password,
-        firstname: this.firstname,
-        lastname: this.lastname,
+        name: this.name,
         email: this.email,
-        address: this.address,
-        occupation: this.occupation,
-        gender: this.gender,
-        age: this.age
+        address: this.address
       };
       if (
         this.isValid &&

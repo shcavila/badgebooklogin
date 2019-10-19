@@ -4,8 +4,24 @@ const Org = require('../models/Org');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
 const jwt = require('jsonwebtoken');
-
+const mongoose = require('mongoose');
 var data;
+
+const conn = require('../server/DB');
+    
+mongoose.Promise = global.Promise;
+
+var db = mongoose.connect(conn.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(
+    () => {
+        console.log('Database is connected')
+    },
+    err => {
+       console.log('Can not connect to the database' + err)
+    }
+);
 
 
 
@@ -56,6 +72,7 @@ orgRoute.route("/login").post(function (req, res) {
                         }
                     });
             }   
+
         }) 
         .catch(err =>{
             if (err) {
@@ -79,11 +96,15 @@ orgRoute.route("/checkusername").post((req, res) => {
                 });
                 //console.log(doc)
             }
+            db.close();
+
             if (!doc) {
                 res.status(200).json({
                     message: "ok"
                 });
             }
+            db.close();
+
 
         })
         .catch(err => {
@@ -93,7 +114,7 @@ orgRoute.route("/checkusername").post((req, res) => {
                 });
             }
         });
-
+       
 });
 
 
@@ -123,14 +144,14 @@ orgRoute.route('/signedup').post((req, res) => {
 orgRoute.route('/fullsignup').post((req, res) => {
     console.log(req.body);
     let org = new Org(req.body);
-    user.save()
+    org.save()
         .then(() => {
             console.log('saved');
-            console.log("id" + user._id);
+            console.log("id" + org._id);
             data = req.body;
             var token = jwt.sign({
-                username: user.username,
-                password: user.password
+                username: org.username,
+                password: org.password
             }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -143,6 +164,8 @@ orgRoute.route('/fullsignup').post((req, res) => {
             // res.status(200).json({
             //     message: "Sign up successfully"
             // })
+            db.close();
+
 
         })
         .catch(err => {
@@ -150,7 +173,7 @@ orgRoute.route('/fullsignup').post((req, res) => {
                 res.status(200).json({
                     message: err.message
                 });
-                //console.log(err)
+                console.log(err);
             }
 
         }); 

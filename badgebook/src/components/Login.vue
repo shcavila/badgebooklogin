@@ -47,7 +47,7 @@ export default {
        this.$store.dispatch("signup", cred)
         .then(() => this.$router.push("/landingpage"))
         .catch(err => console.log(err));
-      axios.post("http://localhost:8081/user/login", cred).then(response => {
+      axios.post("http://localhost:8081/login", cred).then(response => {
         if (response.data.message != "login unsuccessful") {
           console.log(response)
           alert("login successfull");
