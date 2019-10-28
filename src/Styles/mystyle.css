@@ -1,0 +1,241 @@
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+    transition: all 0.5s ease;
+  }
+  
+  .slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+  
+  .slide-fade-enter,
+  .slide-fade-leave-to
+  
+  /* .slide-fade-leave-active below version 2.1.8 */
+   {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+  
+  .signupform {
+    height: auto;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    background: white;
+    text-align: center;
+    margin-right: 10px;
+    padding-left: 20px;
+    border-left: 1px solid lightgray;
+    float: left;
+    width:450px;
+    /* -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1); */
+    border-radius: 0;
+    position: relative;
+  }
+
+  .badgePic {
+    padding:5px;
+    padding-top:60px;
+    width: 240px;
+    text-align: center;
+    margin:2px;
+    float:left;
+  }
+
+  .b {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+  #postB {
+    width: 140px;
+    margin-top: 55px;
+    margin-left: 30px;
+    margin-bottom: 0;
+    
+    float:right;
+  }
+  
+  .input {
+    font-weight: normal;
+    text-align-last: left;
+  }
+  
+  .err {
+    font-weight: normal;
+    color: red;
+    font-size: 13px;
+    width: 100%;
+    position: absolute;
+    right: 0px;
+  }
+  
+  .posts {
+    height: 1000px;
+    background-color: white;
+  }
+  
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+    /* background-image: linear-gradient(to bottom right, white, #d9dcde); */
+    margin: 0;
+    padding-top: 0;
+    height: 1000px;
+    width: 100%;
+  }
+  
+  label {
+    display: block;
+    position: relative;
+    margin: 40px 0px;
+  }
+
+  #perinfo {
+    overflow: auto;
+    padding: 40px;
+    margin: 0;
+    border-radius: 5px;
+    height: 100%;
+    text-align: left;
+  }
+  
+  .label-txt {
+    position: absolute;
+    top: -1.6em;
+    font-weight: normal;
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 1em;
+    letter-spacing: 1px;
+    color: #555657;
+    transition: ease 0.3s;
+    margin-top: 5px;
+  }
+  
+  .label-txt2 {
+    position: absolute;
+    top: -1.6em;
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #555657;
+    transition: ease 0.3s;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: left;
+  }
+  
+  .line-box {
+    position: relative;
+    width: 90%;
+    height: 1px;
+    background: #555657;
+  }
+  
+  .input {
+    font-weight: normal;
+  }
+  
+  .line {
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    top: 0px;
+    transform: translateX(0%);
+    background: #032dff;
+    transition: ease 0.6s;
+  }
+  
+  .input:focus + .line-box .line {
+    width: 100%;
+  }
+  
+  .label-active {
+    top: -3em;
+    font-size: 0.8em;
+  }
+  
+  .sign {
+    text-align: center;
+  }
+  
+  .fixedwidth {
+    width: 500px;
+  }
+  
+  #gender-form {
+    margin-right: 100%;
+  }
+
+  .m {
+    margin: 0;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 15px;
+  }
+  
+  .m:hover {
+    background-color: #0071ff;
+    color: white;
+  }
+  
+  .month {
+    padding: 0px;
+    display: none;
+    position: absolute;
+    border: 1px solid lightgray;
+    z-index: 9999;
+    background: #f7fafa;
+  }
+  
+  #mnth {
+    width: 100%;
+    margin-left: 0;
+  }
+  #gend {
+    font-size: 0.8em;
+  }
+  
+  .BD {
+    width: 100%;
+    border: none;
+    margin: 9px;
+    margin-right: 0;
+    font-weight: normal;
+  }
+  
+  .bd {
+    width: 100%;
+    background: red;
+  }
+  .srow {
+    margin-left: 0px;
+    width: 100%;
+  }
+  
+  #years {
+    width: 150px;
+    padding-left: 20px;
+  }
+  .bday {
+    width: 250px;
+    /* padding-top: 20px;
+    margin-top: 10px; */
+  }
+  
+  .bday td {
+    width: 15%;
+    padding-right: 10px;
+    padding-top: 15px;
+  }
+  
